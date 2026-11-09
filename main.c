@@ -9,12 +9,18 @@ int main(int argc, char* argv[])
         return 1;
 
     // Главный цикл программы
-    while (!sdl_process_events())
+    while (!is_quit)
     {
-        update_frame();
+        int position = 50;
+        draw_vline(LINE_HEIGHT, position);
+        position+=INDENT;
+        
+        
+        
+        window_update()
     }
     // Освобождаем ресурсы SDL
-    sdl_shutdown();
+    destroy_window();
 
     return 0;
 }
