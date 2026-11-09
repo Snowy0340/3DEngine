@@ -1,0 +1,4 @@
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
+#define INDENT 50
+#define LINE_HEIGHT 500
