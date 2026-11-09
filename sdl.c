@@ -12,8 +12,9 @@ static SDL_Event event;
 static bool is_quit = false;
 
 //инициализация sDL и соллздание окна
-int sdl_init(const char* title)
+int create_window()
 {
+    title = "window_title";
     //инициализируем видеоподсистему SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -67,11 +68,14 @@ int sdl_init(const char* title)
         return 0;
     }
 
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+    
     return 1;
 }
 
 //освобождение ресурсов SDL
-void sdl_shutdown(void)
+void destroy_window(void)
 {
     if (renderer != NULL)
     {
@@ -89,17 +93,18 @@ void sdl_shutdown(void)
     SDL_Quit();
 }
 
-void update_frame(void)
+void window_update(void)
 {
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
-
-        draw_lines(LINE_HEIGHT);
-
         SDL_RenderPresent(renderer);
+
+        while (SDL_PollEvent(&event))
+        {
+           if (event.type == SDL_QUIT)
+         is_quit = true;
+        }
 }
 
-void draw_line(int height, int position)
+void draw_vline(int height, int position)
 {
     if (height > SCREEN_HEIGHT)
     {
@@ -112,25 +117,4 @@ void draw_line(int height, int position)
     int ypos = (SCREEN_HEIGHT - height) / 2;
 
     SDL_RenderDrawLine(renderer, position, ypos, position, ypos+height);
-}
-
-void draw_lines(int height)
-{
-    int position = 50;
-    while(position < SCREEN_WIDTH)
-    {
-        draw_line(height, position);
-        position += INDENT;
-    }
-}
-
-bool sdl_process_events(void)
-{
-    while (SDL_PollEvent(&event))
-    {
-        if (event.type == SDL_QUIT)
-            is_quit = true;
-    }
-
-    return is_quit;
 }
