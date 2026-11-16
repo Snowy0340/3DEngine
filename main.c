@@ -39,5 +39,11 @@ int main(void)
         printf("\n");
     }
 
+    /* главный цикл движка: открывает окно и рисует комнату до закрытия */
+    if (!engine_run()) {
+        printf("engine_run failed\n");
+        return 1;
+    }
+
     return 0;
 }
